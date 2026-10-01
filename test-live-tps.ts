@@ -31,6 +31,7 @@ const theme = { fg(_color: string, text: string) { return text; } };
 const footerData = {
 	onBranchChange() { return () => {}; },
 	getGitBranch() { return "main"; },
+	getExtensionStatuses() { return new Map<string, string>(); },
 };
 
 const sessionCtx = {

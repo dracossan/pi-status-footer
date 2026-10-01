@@ -17,6 +17,12 @@ A compact, zero-config two-line status footer for [pi](https://github.com/earend
 
 Everything auto-fits to your terminal width. Line 1 always keeps every segment (it clips only on very narrow terminals). On line 2 the model is mandatory: the model id is shortened from the left, keeping the provider and thinking level intact — only if even that can't fit does the folder/git group drop off.
 
+## Extension status support (this fork)
+
+The original two lines are unchanged. Plugins using `ctx.ui.setStatus()`, such
+as Codex quota meters, appear on an optional third line. See
+[the reusable patch and update instructions](docs/extension-status-patch.md).
+
 ## Features
 
 - **Zero config** — drop it in and it works

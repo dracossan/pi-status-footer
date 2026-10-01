@@ -29,7 +29,7 @@
 		"streaming"
 	],
 	"scripts": {
-		"test": "node --experimental-strip-types test-live-tps.ts && node --experimental-strip-types test-layout.ts"
+		"test": "node --experimental-strip-types test-live-tps.ts && node --experimental-strip-types test-layout.ts && node --experimental-strip-types test-extension-status.ts"
 	},
 	"license": "MIT",
 	"repository": {

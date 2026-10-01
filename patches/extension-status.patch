@@ -1,0 +1,42 @@
+diff --git a/stats-footer.ts b/stats-footer.ts
+index 3c92698..cdb8355 100644
+--- a/stats-footer.ts
++++ b/stats-footer.ts
+@@ -198,6 +198,20 @@ export function truncateSafe(
+ /** Extra column reserved at the right edge to absorb font quirks. */
+ const SAFETY_MARGIN = 1;
+ 
++/** Optional third line for setStatus() plugins; preserve their ANSI styling. */
++export function formatExtensionStatusLine(
++	statuses: ReadonlyMap<string, string>,
++	width: number,
++): string | null {
++	if (width <= 0) return null;
++	const text = Array.from(statuses.entries())
++		.sort(([a], [b]) => a.localeCompare(b))
++		.map(([, value]) => value.replace(/[\r\n\t]/g, " ").replace(/ +/g, " ").trim())
++		.filter(Boolean)
++		.join("  ");
++	return text ? truncateSafe(text, Math.max(0, width - SAFETY_MARGIN), "") : null;
++}
++
+ function joinSegments(segments: string[], separator: string): string {
+ 	return segments.filter(Boolean).join(separator);
+ }
+@@ -512,10 +526,15 @@ export default function statsFooter(pi: ExtensionAPI) {
+ 							width,
+ 						);
+ 
+-						return [
++						const lines = [
+ 							truncateSafe(statsLine, width, ""),
+ 							truncateSafe(gitLine, width, ""),
+ 						];
++						const statusLine = formatExtensionStatusLine(
++							footerData.getExtensionStatuses(), width,
++						);
++						if (statusLine !== null) lines.push(statusLine);
++						return lines;
+ 					} catch {
+ 						// Footer rendering must never crash the TUI, even on very
+ 						// narrow terminals or unexpected context shapes.
